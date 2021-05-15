@@ -204,20 +204,20 @@ model_null <- glm(outcome_smoking_current ~ 1, data = data, family = "binomial")
 # Now let's start with the variables on whether not respondents noticed warnings
 #   Result: ROC AUC = 0.76. Model predicts correctly 81% of the time.
 model_smoke_warn <- glm(as.formula(paste(colnames(data)[1], "~",
-                                          paste(colnames(data)[c(26:39)], collapse = "+"),
-                                          sep = "")), data = data, family = "binomial")
+                                         paste(colnames(data)[c(26:39)], collapse = "+"),
+                                         sep = "")), data = data, family = "binomial")
 
 model_smoke_warn_stepwise <- step(model_null, 
-                                   scope = list(lower = model_null, 
-                                                upper = model_smoke_warn),
-                                   direction = "forward")
+                                  scope = list(lower = model_null, 
+                                               upper = model_smoke_warn),
+                                  direction = "forward")
 
 pred_smoke_warn_stepwise <- predict(model_smoke_warn_stepwise, 
-                                     data = data,
-                                     type = "response")
+                                    data = data,
+                                    type = "response")
 
 ROC_smoke_warn <- roc(data$outcome_smoking_current, 
-                       pred_smoke_warn_stepwise)
+                      pred_smoke_warn_stepwise)
 
 plot(ROC_smoke_warn, col = "green")
 auc(ROC_smoke_warn)
@@ -229,20 +229,20 @@ mean(data$outcome_smoking_current ==
 # Then variables on whether or not respondents noticed or received promotions
 #   ROC-AUC = 0.6239. Model predicts correctly 62% of the time.
 model_smoke_promo <- glm(as.formula(paste(colnames(data)[1], "~",
-                                         paste(colnames(data)[c(40:75)], collapse = "+"),
-                                         sep = "")), data = data, family = "binomial")
+                                          paste(colnames(data)[c(40:75)], collapse = "+"),
+                                          sep = "")), data = data, family = "binomial")
 
 model_smoke_promo_stepwise <- step(model_null, 
-                                  scope = list(lower = model_null, 
-                                               upper = model_smoke_promo),
-                                  direction = "forward")
+                                   scope = list(lower = model_null, 
+                                                upper = model_smoke_promo),
+                                   direction = "forward")
 
 pred_smoke_promo_stepwise <- predict(model_smoke_promo_stepwise, 
-                                    data = data,
-                                    type = "response")
+                                     data = data,
+                                     type = "response")
 
 ROC_smoke_promo <- roc(data$outcome_smoking_current, 
-                      pred_smoke_promo_stepwise)
+                       pred_smoke_promo_stepwise)
 
 plot(ROC_smoke_promo, col = "green")
 auc(ROC_smoke_promo)
@@ -254,20 +254,20 @@ mean(data$outcome_smoking_current ==
 # Then variables on scores on knowledge, attitudes and practices (KAP)
 #   ROC-AUC = 0.5779 It predicts it correctly 0.56% of the time.
 model_smoke_kap <- glm(as.formula(paste(colnames(data)[1], "~",
-                                          paste(colnames(data)[c(76:86)], collapse = "+"),
-                                          sep = "")), data = data, family = "binomial")
+                                        paste(colnames(data)[c(76:86)], collapse = "+"),
+                                        sep = "")), data = data, family = "binomial")
 
 model_smoke_kap_stepwise <- step(model_null, 
-                                   scope = list(lower = model_null, 
-                                                upper = model_smoke_kap),
-                                   direction = "forward")
+                                 scope = list(lower = model_null, 
+                                              upper = model_smoke_kap),
+                                 direction = "forward")
 
 pred_smoke_kap_stepwise <- predict(model_smoke_kap_stepwise, 
-                                     data = data,
-                                     type = "response")
+                                   data = data,
+                                   type = "response")
 
 ROC_smoke_kap <- roc(data$outcome_smoking_current, 
-                       pred_smoke_kap_stepwise)
+                     pred_smoke_kap_stepwise)
 
 plot(ROC_smoke_kap, col = "green")
 auc(ROC_smoke_kap)
@@ -306,20 +306,20 @@ mean(data$outcome_smoking_current ==
 #   Result: ROC AUC = 0.8531. Model predicts correctly 80% of the time.
 #   Result without traits: ROC AUC = 0.8484. Model predicts 79%. Pseudo-R^2 = 0.363
 model_smoke_full <- glm(as.formula(paste(colnames(data)[1], "~",
-                                          paste(colnames(data)[c(12:86)], collapse = "+"),
-                                          sep = "")), data = data, family = "binomial")
+                                         paste(colnames(data)[c(12:86)], collapse = "+"),
+                                         sep = "")), data = data, family = "binomial")
 
 model_smoke_full_stepwise <- step(model_null, 
-                                   scope = list(lower = model_null, 
-                                                upper = model_smoke_full),
-                                   direction = "forward")
+                                  scope = list(lower = model_null, 
+                                               upper = model_smoke_full),
+                                  direction = "forward")
 
 pred_smoke_full_stepwise <- predict(model_smoke_full_stepwise, 
-                                     data = data,
-                                     type = "response")
+                                    data = data,
+                                    type = "response")
 
 ROC_smoke_full <- roc(data$outcome_smoking_current, 
-                       pred_smoke_full_stepwise)
+                      pred_smoke_full_stepwise)
 
 plot(ROC_smoke_full, col = "green")
 auc(ROC_smoke_full)
@@ -332,7 +332,7 @@ glance(model_smoke_full_stepwise) %>%
   summarize(pR2 = 1 - deviance/null.deviance)
 
 test <- data %>% mutate(predict = predict(model_smoke_full_stepwise,
-                                type = "response"))
+                                          type = "response"))
 
 glimpse(test)
 library(WVPlots)
