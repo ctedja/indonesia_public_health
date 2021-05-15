@@ -6,22 +6,27 @@ library(broom)
 
 
 # This is a World Bank public health microdataset of 8,305 individual cases
-#   in Indonesia with 294 variables, named the Global Adult Tobacco Survey (GATS)
-# https://extranet.who.int/ncdsmicrodata/index.php/catalog/260/datafile/F1
+#   in Indonesia with 294 variables of an old Global Adult Tobacco Survey (GATS).
+# Available at: https://extranet.who.int/ncdsmicrodata/index.php/catalog/260/datafile/F1
 raw <- read_csv("WHO_Indonesia_Dataset.csv")
 
-# Indonesia has one of the highest per capita smoking rates, the public
+# Indonesia has one of the highest per capita smoking rates globally; the public
 #   health toll is immense, and tobacco use remains high even as many other
-#   countries have seen tobacco use decline. 
+#   countries have seen tobacco use decline. Our hypothesis is that there 
+#   may be some variables which may be correlated with:
+#     a) whether an individual does or does not smoke
+#     b) smokers' willingness or ability to quit.
+#   Such explanatory variables, as captured in this dataset, include exposure to 
+#   public health messaging and warnings, and on the flipside, exposure to 
+#   promotions/advertising for smoking, as well as knowledge, attitudes and
+#   practices. Better understanding the impacts of these explanatory variables
+#   may help to better design preventive interventions.
 
-# Our hypothesis is that there are a number of variables which may be correlated
-#   with the 
-
-
-# There's also an obvious problem which is that questions on environmental
-#   exposure rely on recall, when it's been proven that advertising often
+# Potential issues: 
+#   1)  Smoking is known to be a "nonrational" behaviour problem, and even
+#   2)  There's an obvious problem with the fact that questions on environmental 
+#   exposure rely on recall, when it's known that advertising often
 #   penetrates at a subconscious level.
-
 
 
 # Data cleaning ----
@@ -190,7 +195,7 @@ data <- raw %>%
 
 
 
-# Regression algorithms ----
+# Regression algorithms [WORK IN PROGRESS, still EDA] ----
 # And now for regressions. With the sheer volume of variables here, we'll
 #   see what automated feature selection, stepwise regression algorithm looks like:
 # First we'll create a null model to "step up" from.
@@ -341,30 +346,5 @@ GainCurvePlot(test, "predict", "outcome_smoking_current", "GainCurvePlot")
 # 3) See differences for urban/rural
 
 # Unexplored questions: they applied a weighting that we may need to consider.
-
-
-
-
-
-
-
-#
-#
-
-glimpse(data)
-grep("D07", colnames(raw))
-grep("electr", colnames(data))
-
-glimpse(data)
-
-step(null_model, scope = list(lower = null_model, upper = full_model), direction = "forward")
-
-lm(
-  as.formula(paste(colnames(mydata)[1], "~",
-                   paste(colnames(mydata)[c(2, 3)], collapse = "+"),
-                   sep = ""
-  )),
-  data=mydata
-)
 
 
