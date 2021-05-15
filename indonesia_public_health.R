@@ -303,8 +303,9 @@ mean(data$outcome_smoking_current ==
 
 
 # Then testing with a full dataset
-#   Result: ROC AUC = 0.8531. Model predicts correctly 80% of the time.
-#   Result without traits: ROC AUC = 0.8484. Model predicts 79%. Pseudo-R^2 = 0.363
+#   Result: ROC AUC = 0.8531. Model predicts correctly 80% of the time. Pseudo-R^2 = 0.363
+#   This is, blindly, a stronger model than the one with only warnings. But let's see.
+#   Also, curiously, result without traits (c(12:76)): ROC AUC = 0.8484. Model predicts 79%. 
 model_smoke_full <- glm(as.formula(paste(colnames(data)[1], "~",
                                          paste(colnames(data)[c(12:86)], collapse = "+"),
                                          sep = "")), data = data, family = "binomial")
